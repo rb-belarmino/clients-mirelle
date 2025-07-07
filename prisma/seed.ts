@@ -19,6 +19,22 @@ const clientData: Prisma.ClientCreateInput[] = [
     data_nascimento: new Date('12/25/1985'),
     cnpj: '98765432000198',
     cod_simples: '987654321'
+  },
+  {
+    nome: 'João da Silva',
+    cpf: '11122233344',
+    senha_gov: 'senha789',
+    data_nascimento: new Date('01/15/1990'),
+    cnpj: '11122233000111',
+    cod_simples: '111222333'
+  },
+  {
+    nome: 'Maria Oliveira',
+    cpf: '44455566677',
+    senha_gov: 'senha012',
+    data_nascimento: new Date('07/20/1988'),
+    cnpj: '44455566000144',
+    cod_simples: '444555666'
   }
 ]
 
@@ -41,7 +57,6 @@ export async function main() {
   console.log('Start seeding ...')
 
   for (const data of clientData) {
-    // Criptografa a senha antes de salvar
     const client = await prisma.client.create({
       data: {
         ...data,

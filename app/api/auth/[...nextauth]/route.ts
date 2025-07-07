@@ -34,6 +34,29 @@ export const authOptions = {
   session: {
     strategy: 'jwt' as const
   },
+  callbacks: {
+    async session({
+      session,
+      token,
+      user
+    }: {
+      session: any
+      token: any
+      user?: any
+    }) {
+      // Inclui o campo role na sessão
+      if (session.user) {
+        session.user.role = token.role || user?.role
+      }
+      return session
+    },
+    async jwt({ token, user }: { token: any; user?: any }) {
+      if (user) {
+        token.role = user.role
+      }
+      return token
+    }
+  },
   pages: {
     signIn: '/login'
   }

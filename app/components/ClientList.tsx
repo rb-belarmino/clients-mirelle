@@ -3,6 +3,15 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
+import { useSession } from 'next-auth/react'
+import { Session } from 'next-auth'
+
+type SessionUser = {
+  name?: string | null
+  email?: string | null
+  image?: string | null
+  role?: string | null
+}
 
 type Client = {
   id: string
@@ -13,6 +22,10 @@ type Client = {
 
 export default function ClientList({ clients }: { clients: Client[] }) {
   const router = useRouter()
+  const { data: session } = useSession() as {
+    data: (Session & { user?: SessionUser }) | null
+  }
+  const isAdmin = session?.user?.role === 'admin'
   const [confirmId, setConfirmId] = useState<string | null>(null)
   const [clientList, setClientList] = useState(clients)
 
@@ -53,18 +66,22 @@ export default function ClientList({ clients }: { clients: Client[] }) {
               >
                 Visualizar
               </button>
-              <button
-                className="bg-amber-400 hover:bg-amber-500 text-amber-900 px-3 py-1 rounded text-xs font-semibold"
-                onClick={() => handleEdit(client.id)}
-              >
-                Editar
-              </button>
-              <button
-                className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs"
-                onClick={() => setConfirmId(client.id)}
-              >
-                Excluir
-              </button>
+              {isAdmin && (
+                <>
+                  <button
+                    className="bg-amber-400 hover:bg-amber-500 text-amber-900 px-3 py-1 rounded text-xs font-semibold"
+                    onClick={() => handleEdit(client.id)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs"
+                    onClick={() => setConfirmId(client.id)}
+                  >
+                    Excluir
+                  </button>
+                </>
+              )}
             </div>
           </li>
         ))}
