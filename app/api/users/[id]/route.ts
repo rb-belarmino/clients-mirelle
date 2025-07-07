@@ -50,3 +50,30 @@ export async function POST(
   })
   return NextResponse.json({ ok: true })
 }
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const session = await getServerSession(authOptions)
+  if (!session || session.user?.role !== 'admin') {
+    return NextResponse.json({ message: 'Acesso negado' }, { status: 403 })
+  }
+  const { id } = params
+  // Impede que o admin delete a si mesmo
+  if (session.user?.id === id) {
+    return NextResponse.json(
+      { message: 'Você não pode deletar seu próprio usuário.' },
+      { status: 400 }
+    )
+  }
+  try {
+    await prisma.user.delete({ where: { id } })
+    return NextResponse.json({ ok: true })
+  } catch (e) {
+    return NextResponse.json(
+      { message: 'Erro ao deletar usuário.' },
+      { status: 500 }
+    )
+  }
+}

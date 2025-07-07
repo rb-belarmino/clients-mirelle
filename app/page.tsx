@@ -2,7 +2,6 @@ import prisma from '@/lib/prisma'
 import Search from './components/Search'
 import ProtectedRoute from './ProtectedRoute'
 import AdminCreateButton from './components/AdminCreateButton'
-import AdminCreateUserButton from './components/AdminCreateUserButton'
 import UsersButton from './components/UsersButton'
 
 export default async function HomePage() {
@@ -15,7 +14,6 @@ export default async function HomePage() {
           </h1>
           <div className="w-full flex flex-col sm:flex-row sm:justify-end mb-6 gap-2">
             <AdminCreateButton />
-            <AdminCreateUserButton />
             <UsersButton />
           </div>
           <Search />

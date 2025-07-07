@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
 import toast from 'react-hot-toast'
+import AdminCreateUserButton from './AdminCreateUserButton'
 
 export type User = {
   id: string
@@ -13,6 +15,9 @@ export type User = {
 }
 
 export default function UserList() {
+  const { data: session } = useSession() as {
+    data: { user?: { id?: string } } | null
+  }
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [editId, setEditId] = useState<string | null>(null)
@@ -67,10 +72,29 @@ export default function UserList() {
     }
   }
 
+  const handleDelete = async (id: string) => {
+    if (session?.user?.id === id) {
+      toast.error('Você não pode deletar seu próprio usuário.')
+      return
+    }
+    if (!window.confirm('Tem certeza que deseja deletar este usuário?')) return
+    const res = await fetch(`/api/users/${id}`, { method: 'DELETE' })
+    if (res.ok) {
+      toast.success('Usuário deletado com sucesso!')
+      setUsers(users => users.filter(u => u.id !== id))
+    } else {
+      const data = await res.json().catch(() => null)
+      toast.error(data?.message || 'Erro ao deletar usuário')
+    }
+  }
+
   if (loading) return <p>Carregando usuários...</p>
 
   return (
     <div className="bg-white rounded shadow p-4 max-w-3xl mx-auto mt-8">
+      <div className="flex justify-end mb-4">
+        <AdminCreateUserButton />
+      </div>
       <h2 className="text-xl font-bold mb-4">Usuários</h2>
       <table className="w-full text-left border-collapse">
         <thead>
@@ -136,13 +160,13 @@ export default function UserList() {
                 {editId === user.id ? (
                   <>
                     <button
-                      className="bg-green-600 text-white px-2 py-1 rounded"
+                      className="bg-green-600 text-white px-2 py-1 rounded text-xs"
                       onClick={handleEditSubmit as any}
                     >
                       Salvar
                     </button>
                     <button
-                      className="bg-gray-300 px-2 py-1 rounded"
+                      className="bg-gray-300 px-2 py-1 rounded text-xs"
                       onClick={() => setEditId(null)}
                     >
                       Cancelar
@@ -150,17 +174,23 @@ export default function UserList() {
                   </>
                 ) : (
                   <button
-                    className="bg-amber-600 text-white px-2 py-1 rounded"
+                    className="bg-amber-600 text-white px-2 py-1 rounded text-xs"
                     onClick={() => handleEdit(user)}
                   >
                     Editar
                   </button>
                 )}
                 <button
-                  className="bg-blue-600 text-white px-2 py-1 rounded"
+                  className="bg-blue-600 text-white px-2 py-1 rounded text-xs"
                   onClick={() => setResetId(user.id)}
                 >
                   Resetar Senha
+                </button>
+                <button
+                  className="bg-red-600 text-white px-2 py-1 rounded text-xs"
+                  onClick={() => handleDelete(user.id)}
+                >
+                  Deletar
                 </button>
               </td>
             </tr>
@@ -181,13 +211,13 @@ export default function UserList() {
             required
           />
           <button
-            className="bg-green-600 text-white px-4 py-2 rounded"
+            className="bg-green-600 text-white px-3 py-1 rounded text-xs"
             type="submit"
           >
             Salvar nova senha
           </button>
           <button
-            className="bg-gray-300 px-4 py-2 rounded"
+            className="bg-gray-300 px-3 py-1 rounded text-xs"
             type="button"
             onClick={() => setResetId(null)}
           >
