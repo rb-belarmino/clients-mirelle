@@ -6,9 +6,10 @@ export async function GET(request: Request) {
   const nome = searchParams.get('nome') || undefined
   try {
     const clients = await prisma.client.findMany({
-      where: nome
-        ? { nome: { contains: nome, mode: 'insensitive' } }
-        : undefined,
+      where: {
+        ativo: true,
+        ...(nome ? { nome: { contains: nome, mode: 'insensitive' } } : {})
+      },
       orderBy: { createdAt: 'desc' }
     })
     return NextResponse.json(clients, { status: 200 })
