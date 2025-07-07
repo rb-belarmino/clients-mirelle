@@ -36,12 +36,12 @@ export default async function EditClientPage({
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-amber-900 text-white">
+    <main className="min-h-screen flex items-center justify-center bg-amber-900 text-white p-2 sm:p-0">
       <form
         action={updateClient}
-        className="bg-amber-800 p-8 rounded shadow max-w-md w-full space-y-4"
+        className="bg-amber-800 p-4 sm:p-8 rounded shadow max-w-md w-full space-y-4 mx-2"
       >
-        <h2 className="text-2xl font-bold mb-4 text-amber-100">
+        <h2 className="text-2xl font-bold mb-4 text-amber-100 text-center">
           Editar Cliente
         </h2>
         <div>
@@ -105,16 +105,16 @@ export default async function EditClientPage({
             required
           />
         </div>
-        <div className="flex gap-2 mt-4">
+        <div className="flex flex-col sm:flex-row gap-2 mt-4">
           <button
             type="submit"
-            className="bg-amber-600 hover:bg-amber-700 px-4 py-2 rounded text-white"
+            className="bg-amber-600 hover:bg-amber-700 px-4 py-2 rounded text-white w-full sm:w-auto"
           >
             Salvar
           </button>
           <Link
             href={`/`}
-            className="bg-amber-500 hover:bg-amber-600 px-4 py-2 rounded text-amber-900 font-semibold"
+            className="bg-amber-500 hover:bg-amber-600 px-4 py-2 rounded text-amber-900 font-semibold w-full sm:w-auto text-center"
           >
             Cancelar
           </Link>

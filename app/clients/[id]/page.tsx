@@ -27,11 +27,13 @@ export default async function ClientDetailPage({
   client.senha_gov = decrypt(client.senha_gov)
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-amber-900 text-white">
-      <div className="bg-amber-800 p-8 rounded shadow max-w-md w-full">
-        <h2 className="text-2xl font-bold mb-6">Detalhes do Cliente</h2>
-        <div className="mb-4">
-          <table className="w-full border-separate border-spacing-y-2">
+    <main className="min-h-screen flex items-center justify-center bg-amber-900 text-white p-2 sm:p-0">
+      <div className="bg-amber-800 p-4 sm:p-8 rounded shadow max-w-md w-full mx-2">
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          Detalhes do Cliente
+        </h2>
+        <div className="mb-4 overflow-x-auto">
+          <table className="w-full border-separate border-spacing-y-2 text-sm sm:text-base">
             <tbody>
               <tr>
                 <th className="text-right pr-4 text-amber-300 font-semibold w-1/3">
@@ -84,7 +86,7 @@ export default async function ClientDetailPage({
         </div>
         <Link
           href="/"
-          className="inline-block mt-4 px-4 py-2 bg-amber-600 hover:bg-amber-700 rounded text-white"
+          className="inline-block mt-4 px-4 py-2 bg-amber-600 hover:bg-amber-700 rounded text-white w-full sm:w-auto text-center"
         >
           Voltar
         </Link>
