@@ -1,4 +1,5 @@
 import { PrismaClient, Prisma } from '@prisma/client'
+import { encrypt } from '../utils/crypto'
 
 const prisma = new PrismaClient()
 
@@ -20,19 +21,25 @@ const clientData: Prisma.ClientCreateInput[] = [
     cod_simples: '987654321'
   }
 ]
+
 export async function main() {
   console.log('Start seeding ...')
 
   for (const data of clientData) {
+    // Criptografa a senha antes de salvar
     const client = await prisma.client.create({
-      data: data
+      data: {
+        ...data,
+        senha_gov: encrypt(data.senha_gov)
+      }
     })
 
     console.log(`Created client: Nome: ${client.nome}, CPF: ${client.cpf}`)
-
-    console.log('Seeding finished.')
   }
+
+  console.log('Seeding finished.')
 }
+
 export async function seed() {
   try {
     await main()

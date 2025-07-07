@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma'
 import Link from 'next/link'
+import { decrypt } from '@/utils/crypto'
 
 export default async function ClientDetailPage({
   params
@@ -22,6 +23,8 @@ export default async function ClientDetailPage({
       </main>
     )
   }
+
+  client.senha_gov = decrypt(client.senha_gov)
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-slate-900 text-white">

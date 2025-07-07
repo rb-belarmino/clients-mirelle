@@ -2,6 +2,7 @@ import prisma from '@/lib/prisma'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import DatePickerInput from '@/app/components/DatePickerInput'
+import { encrypt, decrypt } from '@/utils/crypto'
 
 export default async function EditClientPage({
   params
@@ -14,14 +15,18 @@ export default async function EditClientPage({
     return <div className="text-red-500">Cliente não encontrado.</div>
   }
 
+  client.senha_gov = decrypt(client.senha_gov)
+
   async function updateClient(formData: FormData) {
     'use server'
+    const senha_gov = formData.get('senha_gov') as string
+    const senhaCriptografada = encrypt(senha_gov)
     await prisma.client.update({
       where: { id: params.id },
       data: {
         nome: formData.get('nome') as string,
         cpf: formData.get('cpf') as string,
-        senha_gov: formData.get('senha_gov') as string,
+        senha_gov: senhaCriptografada,
         data_nascimento: new Date(formData.get('data_nascimento') as string),
         cnpj: formData.get('cnpj') as string,
         cod_simples: formData.get('cod_simples') as string
