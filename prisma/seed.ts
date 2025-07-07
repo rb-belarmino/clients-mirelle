@@ -25,13 +25,13 @@ const clientData: Prisma.ClientCreateInput[] = [
 const userData: Prisma.UserCreateInput[] = [
   {
     email: 'admin@admin.com',
-    password: 'admin123', // Em produção, use hash!
+    password: 'admin123',
     name: 'Administrador',
     role: 'admin'
   },
   {
     email: 'test@test.com',
-    password: 'test123', // Em produção, use hash!
+    password: 'test123',
     name: 'Usuário de Teste',
     role: 'user'
   }
