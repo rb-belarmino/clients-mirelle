@@ -23,7 +23,7 @@ export default function DatePickerInput({
       selected={startDate}
       onChange={date => setStartDate(date)}
       dateFormat="yyyy-MM-dd"
-      className="w-full px-3 py-2 rounded bg-slate-700 text-white"
+      className="w-full px-3 py-2 rounded bg-amber-50 border border-amber-300 text-amber-900 focus:border-amber-500 focus:ring-amber-500"
       name={name}
       required={required}
       placeholderText="Selecione a data"

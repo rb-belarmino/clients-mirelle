@@ -61,8 +61,8 @@ const ClientForm = () => {
   }
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-lg mt-8">
-      <h2 className="text-2xl font-bold mb-4">Create Client</h2>
+    <div className="max-w-md mx-auto p-4 bg-amber-50 shadow-md rounded-lg mt-8">
+      <h2 className="text-2xl font-bold mb-4 text-amber-900">Create Client</h2>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
@@ -71,7 +71,7 @@ const ClientForm = () => {
           value={nome}
           onChange={e => setNome(e.target.value)}
           required
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-amber-300 rounded focus:border-amber-500 focus:ring-amber-500"
         />
         <input
           type="text"
@@ -79,7 +79,7 @@ const ClientForm = () => {
           value={cpf}
           onChange={e => setCpf(e.target.value)}
           required
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-amber-300 rounded focus:border-amber-500 focus:ring-amber-500"
         />
         <input
           type="password"
@@ -87,34 +87,34 @@ const ClientForm = () => {
           value={senhaGov}
           onChange={e => setSenhaGov(e.target.value)}
           required
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-amber-300 rounded focus:border-amber-500 focus:ring-amber-500"
         />
         <input
           type="date"
           placeholder="Data de Nascimento"
           value={dataNascimento}
           onChange={e => setDataNascimento(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-amber-300 rounded focus:border-amber-500 focus:ring-amber-500"
         />
         <input
           type="text"
           placeholder="CNPJ"
           value={cnpj}
           onChange={e => setCnpj(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-amber-300 rounded focus:border-amber-500 focus:ring-amber-500"
         />
         <input
           type="number"
           placeholder="Código Simples Nacional"
           value={codSimples}
           onChange={e => setCodSimples(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-amber-300 rounded focus:border-amber-500 focus:ring-amber-500"
         />
         <button
           type="submit"
           disabled={isLoading}
           className={`w-full p-2 text-white ${
-            isLoading ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'
+            isLoading ? 'bg-amber-300' : 'bg-amber-600 hover:bg-amber-700'
           } rounded`}
         >
           {isLoading ? 'Creating...' : 'Create Client'}

@@ -27,21 +27,21 @@ export default function Search() {
   }, [search])
 
   return (
-    <div className="p-6 bg-slate-800 rounded-xl shadow-lg mt-8 max-w-4xl w-full">
+    <div className="p-6 bg-amber-50 rounded-xl shadow-lg mt-8 max-w-4xl w-full">
       <input
         type="text"
         placeholder="Buscar por nome..."
         value={search}
         onChange={e => setSearch(e.target.value)}
-        className="mb-4 w-full p-2 rounded bg-slate-700 text-white border border-slate-600"
+        className="mb-4 w-full p-2 rounded bg-amber-100 text-amber-900 border border-amber-300 focus:border-amber-500 focus:ring-amber-500"
       />
-      <h2 className="text-2xl font-bold text-white text-center mb-6">
+      <h2 className="text-2xl font-bold text-amber-900 text-center mb-6">
         Clientes Cadastrados
       </h2>
       {loading ? (
-        <p className="text-slate-400 text-center">Carregando...</p>
+        <p className="text-amber-400 text-center">Carregando...</p>
       ) : clients.length === 0 ? (
-        <p className="text-slate-400 text-center">Nenhum cliente encontrado.</p>
+        <p className="text-amber-400 text-center">Nenhum cliente encontrado.</p>
       ) : (
         <ClientList clients={clients} />
       )}

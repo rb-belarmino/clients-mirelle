@@ -35,24 +35,26 @@ export default function ClientList({ clients }: { clients: Client[] }) {
         {clientList.map(client => (
           <li
             key={client.id}
-            className="bg-slate-700 p-4 rounded-lg flex justify-between items-center"
+            className="bg-amber-100 p-4 rounded-lg flex justify-between items-center"
           >
             <div>
-              <p className="font-semibold text-white">Nome: {client.nome}</p>
-              <p className="text-sm text-slate-300">CPF: {client.cpf}</p>
+              <p className="font-semibold text-amber-900">
+                Nome: {client.nome}
+              </p>
+              <p className="text-sm text-amber-700">CPF: {client.cpf}</p>
             </div>
-            <span className="text-xs text-slate-500 mr-4">
+            <span className="text-xs text-amber-600 mr-4">
               Registrado em: {new Date(client.createdAt).toLocaleDateString()}
             </span>
             <div className="flex gap-2">
               <button
-                className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs"
+                className="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1 rounded text-xs"
                 onClick={() => handleView(client.id)}
               >
                 Visualizar
               </button>
               <button
-                className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-xs"
+                className="bg-amber-400 hover:bg-amber-500 text-amber-900 px-3 py-1 rounded text-xs font-semibold"
                 onClick={() => handleEdit(client.id)}
               >
                 Editar
@@ -70,7 +72,7 @@ export default function ClientList({ clients }: { clients: Client[] }) {
       {confirmId && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
           <div className="bg-white p-6 rounded shadow-lg text-center">
-            <p className="mb-4 text-slate-800">
+            <p className="mb-4 text-amber-900">
               Tem certeza que deseja excluir este cliente?
             </p>
             <div className="flex justify-center gap-4">
@@ -81,7 +83,7 @@ export default function ClientList({ clients }: { clients: Client[] }) {
                 Sim, excluir
               </button>
               <button
-                className="bg-slate-300 px-4 py-2 rounded"
+                className="bg-amber-200 text-amber-900 px-4 py-2 rounded"
                 onClick={() => setConfirmId(null)}
               >
                 Cancelar
