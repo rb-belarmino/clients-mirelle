@@ -28,6 +28,12 @@ const userData: Prisma.UserCreateInput[] = [
     password: 'admin123', // Em produção, use hash!
     name: 'Administrador',
     role: 'admin'
+  },
+  {
+    email: 'test@test.com',
+    password: 'test123', // Em produção, use hash!
+    name: 'Usuário de Teste',
+    role: 'user'
   }
 ]
 
