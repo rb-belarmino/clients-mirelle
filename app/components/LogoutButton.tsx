@@ -35,7 +35,7 @@ export default function LogoutButton() {
       </span>
       <button
         onClick={() => signOut({ callbackUrl: '/login' })}
-        className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded ml-2"
+        className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded ml-2 text-xs"
       >
         Sair
       </button>
