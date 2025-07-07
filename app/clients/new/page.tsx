@@ -1,25 +1,18 @@
-import prisma from '@/lib/prisma'
-import { redirect } from 'next/navigation'
-import bcrypt from 'bcryptjs'
+'use client'
 import DatePickerInput from '@/app/components/DatePickerInput'
+import { useState } from 'react'
+import { createClient } from './actions'
 
 export default function NewClientPage() {
-  async function createClient(formData: FormData) {
-    'use server'
-    const senha_gov = formData.get('senha_gov') as string
-    const senha_gov_hash = await bcrypt.hash(senha_gov, 10)
+  const [touched, setTouched] = useState<{ [key: string]: boolean }>({})
+  const [values, setValues] = useState<{ [key: string]: string }>({})
 
-    await prisma.client.create({
-      data: {
-        nome: formData.get('nome') as string,
-        cpf: formData.get('cpf') as string,
-        senha_gov: senha_gov_hash,
-        data_nascimento: new Date(formData.get('data_nascimento') as string),
-        cnpj: formData.get('cnpj') as string,
-        cod_simples: BigInt(formData.get('cod_simples') as string)
-      }
-    })
-    redirect('/')
+  function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
+    setTouched({ ...setTouched, [e.target.name]: true })
+  }
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setValues({ ...values, [e.target.name]: e.target.value })
   }
 
   return (
@@ -30,37 +23,65 @@ export default function NewClientPage() {
       >
         <h2 className="text-2xl font-bold mb-4">Cadastrar Novo Cliente</h2>
         <div>
-          <label className="block mb-1">Nome:</label>
+          <label className="block mb-1">
+            Nome:{' '}
+            {touched.nome && !values.nome && (
+              <span className="text-red-500 ml-2">* obrigatório</span>
+            )}
+          </label>
           <input
             name="nome"
             className="w-full px-3 py-2 rounded bg-slate-700 text-white"
             required
+            onBlur={handleBlur}
+            onChange={handleChange}
           />
         </div>
         <div>
-          <label className="block mb-1">CPF:</label>
+          <label className="block mb-1">
+            CPF:
+            {touched.cpf && !values.cpf && (
+              <span className="text-red-500 ml-2">* obrigatório</span>
+            )}
+          </label>
           <input
             name="cpf"
             type="text"
             className="w-full px-3 py-2 rounded bg-slate-700 text-white"
             required
+            onBlur={handleBlur}
+            onChange={handleChange}
           />
         </div>
         <div>
-          <label className="block mb-1">Senha Gov:</label>
+          <label className="block mb-1">
+            Senha Gov:
+            {touched.senha_gov && !values.senha_gov && (
+              <span className="text-red-500 ml-2">* obrigatório</span>
+            )}
+          </label>
           <input
             name="senha_gov"
             type="password"
             className="w-full px-3 py-2 rounded bg-slate-700 text-white"
             required
+            onBlur={handleBlur}
+            onChange={handleChange}
           />
         </div>
         <div>
-          <label className="block mb-1">Data de Nascimento:</label>
+          <label className="block mb-1">
+            Data de Nascimento:
+            {touched.data_nascimento && !values.data_nascimento && (
+              <span className="text-red-500 ml-2">* obrigatório</span>
+            )}
+          </label>
           <DatePickerInput
             name="data_nascimento"
             className="w-full px-3 py-2 rounded bg-slate-700 text-white"
             required
+            onBlur={handleBlur}
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -68,6 +89,8 @@ export default function NewClientPage() {
           <input
             name="cnpj"
             className="w-full px-3 py-2 rounded bg-slate-700 text-white"
+            onBlur={handleBlur}
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -75,6 +98,8 @@ export default function NewClientPage() {
           <input
             name="cod_simples"
             className="w-full px-3 py-2 rounded bg-slate-700 text-white"
+            onBlur={handleBlur}
+            onChange={handleChange}
           />
         </div>
         <div className="flex gap-2 mt-4">
