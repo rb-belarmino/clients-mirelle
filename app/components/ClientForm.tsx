@@ -34,7 +34,7 @@ const ClientForm = () => {
             ? new Date(dataNascimento).toISOString()
             : undefined,
           cnpj,
-          cod_simples: codSimples ? parseInt(codSimples, 10) : undefined
+          cod_simples: codSimples
         })
       })
 

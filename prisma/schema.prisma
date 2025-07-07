@@ -13,7 +13,7 @@ model Client {
   cpf             String   @unique
   senha_gov       String
   data_nascimento DateTime
-  cod_simples     Int?
+  cod_simples     String?
   cnpj            String?
   ativo           Boolean  @default(true)
   createdAt       DateTime @default(now())

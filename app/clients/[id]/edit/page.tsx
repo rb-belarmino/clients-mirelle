@@ -24,7 +24,7 @@ export default async function EditClientPage({
         senha_gov: formData.get('senha_gov') as string,
         data_nascimento: new Date(formData.get('data_nascimento') as string),
         cnpj: formData.get('cnpj') as string,
-        cod_simples: Number(formData.get('cod_simples'))
+        cod_simples: formData.get('cod_simples') as string
       }
     })
     redirect(`/clients/${params.id}`)

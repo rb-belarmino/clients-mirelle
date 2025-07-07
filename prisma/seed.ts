@@ -9,7 +9,7 @@ const clientData: Prisma.ClientCreateInput[] = [
     senha_gov: 'senha123',
     data_nascimento: new Date('04/06/1991'),
     cnpj: '12345678000195',
-    cod_simples: 123456789
+    cod_simples: '123456789'
   },
   {
     nome: 'Rodrigo Belarmino',
@@ -17,7 +17,7 @@ const clientData: Prisma.ClientCreateInput[] = [
     senha_gov: 'senha456',
     data_nascimento: new Date('12/25/1985'),
     cnpj: '98765432000198',
-    cod_simples: 987654321
+    cod_simples: '987654321'
   }
 ]
 export async function main() {
