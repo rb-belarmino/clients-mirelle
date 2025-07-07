@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import ClientList from './ClientList'
 
 type Client = {
   id: string
@@ -42,22 +43,7 @@ export default function Search() {
       ) : clients.length === 0 ? (
         <p className="text-slate-400 text-center">Nenhum cliente encontrado.</p>
       ) : (
-        <ul className="space-y-4">
-          {clients.map(client => (
-            <li
-              key={client.id}
-              className="bg-slate-700 p-4 rounded-lg flex justify-between items-center"
-            >
-              <div>
-                <p className="font-semibold text-white">Nome: {client.nome}</p>
-                <p className="text-sm text-slate-300">CPF: {client.cpf}</p>
-              </div>
-              <span className="text-xs text-slate-500">
-                Registrado em: {new Date(client.createdAt).toLocaleDateString()}
-              </span>
-            </li>
-          ))}
-        </ul>
+        <ClientList clients={clients} />
       )}
     </div>
   )
