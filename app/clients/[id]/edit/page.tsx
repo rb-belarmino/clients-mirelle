@@ -1,9 +1,8 @@
-"use client"
+'use client'
 
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import DatePickerInput from '@/app/components/DatePickerInput'
-import { formatCPF } from '@/utils/format'
 import toast from 'react-hot-toast'
 
 export default function EditClientPage() {
@@ -28,9 +27,11 @@ export default function EditClientPage() {
         const data = await res.json()
         setClient(data)
         setNome(data.nome || '')
-        setCpf(formatCPF(data.cpf || ''))
+        setCpf(data.cpf || '')
         setSenhaGov(data.senha_gov || '')
-        setDataNascimento(data.data_nascimento ? data.data_nascimento.split('T')[0] : '')
+        setDataNascimento(
+          data.data_nascimento ? data.data_nascimento.split('T')[0] : ''
+        )
         setCnpj(data.cnpj || '')
         setCodSimples(data.cod_simples || '')
       }
@@ -41,7 +42,7 @@ export default function EditClientPage() {
 
   function handleCpfChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value.replace(/\D/g, '')
-    setCpf(formatCPF(value))
+    setCpf(value)
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -68,8 +69,10 @@ export default function EditClientPage() {
     }
   }
 
-  if (loading) return <div className="text-center text-amber-200">Carregando...</div>
-  if (!client) return <div className="text-red-500">Cliente não encontrado.</div>
+  if (loading)
+    return <div className="text-center text-amber-200">Carregando...</div>
+  if (!client)
+    return <div className="text-red-500">Cliente não encontrado.</div>
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-amber-900 text-white p-2 sm:p-0">
@@ -114,7 +117,9 @@ export default function EditClientPage() {
           />
         </div>
         <div>
-          <label className="block mb-1 text-amber-200">Data de Nascimento:</label>
+          <label className="block mb-1 text-amber-200">
+            Data de Nascimento:
+          </label>
           <DatePickerInput
             name="data_nascimento"
             defaultValue={dataNascimento}
@@ -133,7 +138,9 @@ export default function EditClientPage() {
           />
         </div>
         <div>
-          <label className="block mb-1 text-amber-200">Código Simples Nacional:</label>
+          <label className="block mb-1 text-amber-200">
+            Código Simples Nacional:
+          </label>
           <input
             name="cod_simples"
             value={codSimples}

@@ -1,14 +1,35 @@
-import prisma from '@/lib/prisma'
-import Link from 'next/link'
-import { decrypt } from '@/utils/crypto'
+'use client'
 
-export default async function ClientDetailPage(props: {
-  params: { id: string }
-}) {
-  const { params } = await props
-  const client = await prisma.client.findUnique({
-    where: { id: params.id }
-  })
+import { useEffect, useState } from 'react'
+import { useParams } from 'next/navigation'
+import Link from 'next/link'
+
+export default function ClientDetailPage() {
+  const params = useParams()
+  const { id } = params as { id: string }
+  const [client, setClient] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchClient() {
+      setLoading(true)
+      const res = await fetch(`/api/clients/${id}`)
+      if (res.ok) {
+        const data = await res.json()
+        setClient(data)
+      }
+      setLoading(false)
+    }
+    fetchClient()
+  }, [id])
+
+  if (loading) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-amber-900 text-white">
+        <div className="bg-amber-800 p-8 rounded shadow">Carregando...</div>
+      </main>
+    )
+  }
 
   if (!client) {
     return (
@@ -22,8 +43,6 @@ export default async function ClientDetailPage(props: {
       </main>
     )
   }
-
-  client.senha_gov = decrypt(client.senha_gov)
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-amber-900 text-white p-2 sm:p-0">
@@ -61,7 +80,9 @@ export default async function ClientDetailPage(props: {
                   Data de Nascimento:
                 </th>
                 <td className="bg-amber-700 px-4 py-2 rounded">
-                  {new Date(client.data_nascimento).toLocaleDateString()}
+                  {client.data_nascimento
+                    ? new Date(client.data_nascimento).toLocaleDateString()
+                    : ''}
                 </td>
               </tr>
               <tr>

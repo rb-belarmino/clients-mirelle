@@ -71,7 +71,10 @@ export async function main() {
     const user = await prisma.user.upsert({
       where: { email: data.email },
       update: {},
-      create: data
+      create: {
+        ...data,
+        password: encrypt(data.password)
+      }
     })
     console.log(`Created user: Email: ${user.email}`)
   }
