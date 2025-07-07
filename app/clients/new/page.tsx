@@ -16,10 +16,10 @@ export default function NewClientPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-slate-900 text-white">
+    <main className="min-h-screen flex items-center justify-center bg-amber-900 text-white">
       <form
         action={createClient}
-        className="bg-slate-800 p-8 rounded shadow max-w-md w-full space-y-4"
+        className="bg-amber-800 p-8 rounded shadow max-w-md w-full space-y-4"
       >
         <h2 className="text-2xl font-bold mb-4">Cadastrar Novo Cliente</h2>
         <div>
@@ -31,7 +31,7 @@ export default function NewClientPage() {
           </label>
           <input
             name="nome"
-            className="w-full px-3 py-2 rounded bg-slate-700 text-white"
+            className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
             required
             onBlur={handleBlur}
             onChange={handleChange}
@@ -47,7 +47,7 @@ export default function NewClientPage() {
           <input
             name="cpf"
             type="text"
-            className="w-full px-3 py-2 rounded bg-slate-700 text-white"
+            className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
             required
             onBlur={handleBlur}
             onChange={handleChange}
@@ -63,7 +63,7 @@ export default function NewClientPage() {
           <input
             name="senha_gov"
             type="password"
-            className="w-full px-3 py-2 rounded bg-slate-700 text-white"
+            className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
             required
             onBlur={handleBlur}
             onChange={handleChange}
@@ -78,7 +78,7 @@ export default function NewClientPage() {
           </label>
           <DatePickerInput
             name="data_nascimento"
-            className="w-full px-3 py-2 rounded bg-slate-700 text-white"
+            className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
             required
             onBlur={handleBlur}
             onChange={handleChange}
@@ -88,7 +88,7 @@ export default function NewClientPage() {
           <label className="block mb-1">CNPJ:</label>
           <input
             name="cnpj"
-            className="w-full px-3 py-2 rounded bg-slate-700 text-white"
+            className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
             onBlur={handleBlur}
             onChange={handleChange}
           />
@@ -97,7 +97,7 @@ export default function NewClientPage() {
           <label className="block mb-1">Código Simples Nacional:</label>
           <input
             name="cod_simples"
-            className="w-full px-3 py-2 rounded bg-slate-700 text-white"
+            className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
             onBlur={handleBlur}
             onChange={handleChange}
           />
@@ -105,13 +105,13 @@ export default function NewClientPage() {
         <div className="flex gap-2 mt-4">
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white"
+            className="bg-amber-600 hover:bg-amber-700 px-4 py-2 rounded text-white"
           >
             Salvar
           </button>
           <a
             href="/"
-            className="bg-slate-600 hover:bg-slate-700 px-4 py-2 rounded text-white"
+            className="bg-amber-500 hover:bg-amber-600 px-4 py-2 rounded text-amber-900 font-semibold"
           >
             Cancelar
           </a>
