@@ -2,11 +2,10 @@ import prisma from '@/lib/prisma'
 import Link from 'next/link'
 import { decrypt } from '@/utils/crypto'
 
-export default async function ClientDetailPage({
-  params
-}: {
+export default async function ClientDetailPage(props: {
   params: { id: string }
 }) {
+  const { params } = await props
   const client = await prisma.client.findUnique({
     where: { id: params.id }
   })
