@@ -1,44 +1,80 @@
-import prisma from '@/lib/prisma'
-import Link from 'next/link'
-import { redirect } from 'next/navigation'
+"use client"
+
+import { useEffect, useState } from 'react'
+import { useRouter, useParams } from 'next/navigation'
 import DatePickerInput from '@/app/components/DatePickerInput'
-import { encrypt, decrypt } from '@/utils/crypto'
+import { formatCPF } from '@/utils/format'
+import toast from 'react-hot-toast'
 
-export default async function EditClientPage({
-  params
-}: {
-  params: { id: string }
-}) {
-  const client = await prisma.client.findUnique({ where: { id: params.id } })
+export default function EditClientPage() {
+  const router = useRouter()
+  const params = useParams()
+  const { id } = params as { id: string }
 
-  if (!client) {
-    return <div className="text-red-500">Cliente não encontrado.</div>
-  }
+  const [loading, setLoading] = useState(true)
+  const [client, setClient] = useState<any>(null)
+  const [nome, setNome] = useState('')
+  const [cpf, setCpf] = useState('')
+  const [senhaGov, setSenhaGov] = useState('')
+  const [dataNascimento, setDataNascimento] = useState('')
+  const [cnpj, setCnpj] = useState('')
+  const [codSimples, setCodSimples] = useState('')
 
-  client.senha_gov = decrypt(client.senha_gov)
-
-  async function updateClient(formData: FormData) {
-    'use server'
-    const senha_gov = formData.get('senha_gov') as string
-    const senhaCriptografada = encrypt(senha_gov)
-    await prisma.client.update({
-      where: { id: params.id },
-      data: {
-        nome: formData.get('nome') as string,
-        cpf: formData.get('cpf') as string,
-        senha_gov: senhaCriptografada,
-        data_nascimento: new Date(formData.get('data_nascimento') as string),
-        cnpj: formData.get('cnpj') as string,
-        cod_simples: formData.get('cod_simples') as string
+  useEffect(() => {
+    async function fetchClient() {
+      setLoading(true)
+      const res = await fetch(`/api/clients/${id}`)
+      if (res.ok) {
+        const data = await res.json()
+        setClient(data)
+        setNome(data.nome || '')
+        setCpf(formatCPF(data.cpf || ''))
+        setSenhaGov(data.senha_gov || '')
+        setDataNascimento(data.data_nascimento ? data.data_nascimento.split('T')[0] : '')
+        setCnpj(data.cnpj || '')
+        setCodSimples(data.cod_simples || '')
       }
-    })
-    redirect(`/clients/${params.id}`)
+      setLoading(false)
+    }
+    fetchClient()
+  }, [id])
+
+  function handleCpfChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value.replace(/\D/g, '')
+    setCpf(formatCPF(value))
   }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setLoading(true)
+    const res = await fetch(`/api/clients/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nome,
+        cpf: cpf.replace(/\D/g, ''),
+        senha_gov: senhaGov,
+        data_nascimento: dataNascimento,
+        cnpj,
+        cod_simples: codSimples
+      })
+    })
+    setLoading(false)
+    if (res.ok) {
+      toast.success('Cliente atualizado com sucesso!')
+      router.push(`/clients/${id}`)
+    } else {
+      toast.error('Erro ao atualizar cliente.')
+    }
+  }
+
+  if (loading) return <div className="text-center text-amber-200">Carregando...</div>
+  if (!client) return <div className="text-red-500">Cliente não encontrado.</div>
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-amber-900 text-white p-2 sm:p-0">
       <form
-        action={updateClient}
+        onSubmit={handleSubmit}
         className="bg-amber-800 p-4 sm:p-8 rounded shadow max-w-md w-full space-y-4 mx-2"
       >
         <h2 className="text-2xl font-bold mb-4 text-amber-100 text-center">
@@ -48,7 +84,8 @@ export default async function EditClientPage({
           <label className="block mb-1 text-amber-200">Nome:</label>
           <input
             name="nome"
-            defaultValue={client.nome}
+            value={nome}
+            onChange={e => setNome(e.target.value)}
             className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
             required
           />
@@ -57,31 +94,31 @@ export default async function EditClientPage({
           <label className="block mb-1 text-amber-200">CPF:</label>
           <input
             name="cpf"
-            defaultValue={client.cpf}
+            value={cpf}
+            onChange={handleCpfChange}
+            maxLength={14}
             className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
             required
+            inputMode="numeric"
+            autoComplete="off"
           />
         </div>
         <div>
           <label className="block mb-1 text-amber-200">Senha Gov:</label>
           <input
             name="senha_gov"
-            defaultValue={client.senha_gov}
+            value={senhaGov}
+            onChange={e => setSenhaGov(e.target.value)}
             className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
             required
           />
         </div>
         <div>
-          <label className="block mb-1 text-amber-200">
-            Data de Nascimento:
-          </label>
+          <label className="block mb-1 text-amber-200">Data de Nascimento:</label>
           <DatePickerInput
             name="data_nascimento"
-            defaultValue={
-              client.data_nascimento
-                ? client.data_nascimento.toISOString().split('T')[0]
-                : ''
-            }
+            defaultValue={dataNascimento}
+            onChange={e => setDataNascimento(e.target.value)}
             required
           />
         </div>
@@ -89,18 +126,18 @@ export default async function EditClientPage({
           <label className="block mb-1 text-amber-200">CNPJ:</label>
           <input
             name="cnpj"
-            defaultValue={client.cnpj ?? ''}
+            value={cnpj}
+            onChange={e => setCnpj(e.target.value)}
             className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
             required
           />
         </div>
         <div>
-          <label className="block mb-1 text-amber-200">
-            Código Simples Nacional:
-          </label>
+          <label className="block mb-1 text-amber-200">Código Simples Nacional:</label>
           <input
             name="cod_simples"
-            defaultValue={client.cod_simples ?? ''}
+            value={codSimples}
+            onChange={e => setCodSimples(e.target.value)}
             className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
             required
           />
@@ -109,15 +146,17 @@ export default async function EditClientPage({
           <button
             type="submit"
             className="bg-amber-600 hover:bg-amber-700 px-4 py-2 rounded text-white w-full sm:w-auto"
+            disabled={loading}
           >
-            Salvar
+            {loading ? 'Salvando...' : 'Salvar'}
           </button>
-          <Link
-            href={`/`}
+          <button
+            type="button"
+            onClick={() => router.push(`/clients/${id}`)}
             className="bg-amber-500 hover:bg-amber-600 px-4 py-2 rounded text-amber-900 font-semibold w-full sm:w-auto text-center"
           >
             Cancelar
-          </Link>
+          </button>
         </div>
       </form>
     </main>
