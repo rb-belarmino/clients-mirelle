@@ -22,6 +22,15 @@ const clientData: Prisma.ClientCreateInput[] = [
   }
 ]
 
+const userData: Prisma.UserCreateInput[] = [
+  {
+    email: 'admin@admin.com',
+    password: 'admin123', // Em produção, use hash!
+    name: 'Administrador',
+    role: 'admin'
+  }
+]
+
 export async function main() {
   console.log('Start seeding ...')
 
@@ -35,6 +44,15 @@ export async function main() {
     })
 
     console.log(`Created client: Nome: ${client.nome}, CPF: ${client.cpf}`)
+  }
+
+  for (const data of userData) {
+    const user = await prisma.user.upsert({
+      where: { email: data.email },
+      update: {},
+      create: data
+    })
+    console.log(`Created user: Email: ${user.email}`)
   }
 
   console.log('Seeding finished.')
