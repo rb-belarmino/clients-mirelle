@@ -103,7 +103,7 @@ export default async function EditClientPage({
             Salvar
           </button>
           <Link
-            href={`/clients/${params.id}`}
+            href={`/`}
             className="bg-slate-600 hover:bg-slate-700 px-4 py-2 rounded text-white"
           >
             Cancelar

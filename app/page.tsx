@@ -1,6 +1,5 @@
 import prisma from '@/lib/prisma'
 import Search from './components/Search'
-import ClientList from './components/ClientList'
 
 export default async function HomePage() {
   const clients = await prisma.client.findMany({
