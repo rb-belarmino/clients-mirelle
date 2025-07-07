@@ -13,6 +13,14 @@ export default async function HomePage() {
         <h1 className="text-4xl font-extrabold mb-8 tracking-tight">
           Sistema de Clientes
         </h1>
+        <div className="w-full flex justify-end mb-6">
+          <a
+            href="/clients/new"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded transition"
+          >
+            Cadastrar novo cliente
+          </a>
+        </div>
         <Search />
       </div>
     </main>
