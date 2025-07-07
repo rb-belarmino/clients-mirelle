@@ -7,11 +7,11 @@ export default function NewClientPage() {
   const [touched, setTouched] = useState<{ [key: string]: boolean }>({})
   const [values, setValues] = useState<{ [key: string]: string }>({})
 
-  function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
-    setTouched({ ...setTouched, [e.target.name]: true })
+  function handleBlur(e: any) {
+    setTouched({ ...touched, [e.target.name]: true })
   }
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(e: any) {
     setValues({ ...values, [e.target.name]: e.target.value })
   }
 
@@ -84,6 +84,7 @@ export default function NewClientPage() {
             required
             onBlur={handleBlur}
             onChange={handleChange}
+            defaultValue={values.data_nascimento}
           />
         </div>
         <div>

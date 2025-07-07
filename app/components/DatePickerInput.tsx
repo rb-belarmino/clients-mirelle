@@ -7,12 +7,18 @@ type Props = {
   name: string
   defaultValue?: string
   required?: boolean
+  onChange?: (e: any) => void
+  onBlur?: (e: any) => void
+  className?: string
 }
 
 export default function DatePickerInput({
   name,
   defaultValue,
-  required
+  required,
+  onChange,
+  onBlur,
+  className
 }: Props) {
   const [startDate, setStartDate] = useState<Date | null>(
     defaultValue ? new Date(defaultValue) : null
@@ -21,14 +27,24 @@ export default function DatePickerInput({
   return (
     <DatePicker
       selected={startDate}
-      onChange={date => setStartDate(date)}
+      onChange={date => {
+        setStartDate(date)
+        if (onChange) {
+          // Simula um evento para compatibilidade com handleChange
+          onChange({
+            target: { name, value: date ? date.toISOString().slice(0, 10) : '' }
+          })
+        }
+      }}
       dateFormat="yyyy-MM-dd"
-      className="w-full px-3 py-2 rounded bg-amber-50 border border-amber-300 text-amber-900 focus:border-amber-500 focus:ring-amber-500"
+      className={className}
       name={name}
       required={required}
       placeholderText="Selecione a data"
-      value={startDate ? startDate.toISOString().split('T')[0] : ''}
-      onChangeRaw={e => e.preventDefault()}
+      onChangeRaw={e => {
+        if (e) e.preventDefault()
+      }}
+      onBlur={onBlur}
     />
   )
 }
