@@ -5,9 +5,7 @@ const prisma = new PrismaClient()
 
 const clientData: Prisma.ClientCreateInput[] = []
 
-const userData: Prisma.UserCreateInput[] = [
-  
-]
+const userData: Prisma.UserCreateInput[] = []
 
 export async function main() {
   console.log('Start seeding ...')
@@ -16,7 +14,7 @@ export async function main() {
     const client = await prisma.client.create({
       data: {
         ...data,
-        senha_gov: data.senha_gov 
+        senha_gov: data.senha_gov
       }
     })
 

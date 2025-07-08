@@ -1,7 +1,7 @@
 'use server'
 import prisma from '@/lib/prisma'
-import { encrypt, decrypt } from '@/utils/crypto'
 import { redirect } from 'next/navigation'
+import { encrypt, decrypt } from '@/utils/crypto'
 
 export async function createClient(formData: FormData) {
   const senha_gov = formData.get('senha_gov') as string
@@ -23,8 +23,10 @@ export async function getClient(id: string) {
   const client = await prisma.client.findUnique({
     where: { id }
   })
-  if (client) {
-    client.senha_gov = decrypt(client.senha_gov)
+  if (client && client.senha_gov) {
+    try {
+      client.senha_gov = decrypt(client.senha_gov)
+    } catch {}
   }
   return client
 }

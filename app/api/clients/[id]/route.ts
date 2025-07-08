@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import { decrypt } from '@/utils/crypto'
+import { decrypt, encrypt } from '@/utils/crypto'
 
 export async function DELETE(
   request: Request,
@@ -45,7 +45,6 @@ export async function GET(
         { status: 404 }
       )
     }
-    // Descriptografa senha_gov antes de retornar
     if (client.senha_gov) {
       try {
         client.senha_gov = decrypt(client.senha_gov)
@@ -55,6 +54,44 @@ export async function GET(
   } catch (error) {
     return NextResponse.json(
       { message: 'Erro ao buscar cliente' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function PUT(
+  request: Request,
+  context: { params: Promise<{ id: string }> }
+) {
+  const session = await getServerSession(authOptions)
+  if (!session || session.user?.role !== 'admin') {
+    return NextResponse.json(
+      {
+        message: 'Acesso negado: apenas administradores podem editar clientes.'
+      },
+      { status: 403 }
+    )
+  }
+  const { id } = await context.params
+  const body = await request.json()
+  try {
+    const client = await prisma.client.update({
+      where: { id },
+      data: {
+        nome: body.nome,
+        cpf: body.cpf,
+        senha_gov: body.senha_gov ? encrypt(body.senha_gov) : undefined,
+        data_nascimento: body.data_nascimento
+          ? new Date(body.data_nascimento)
+          : undefined,
+        cnpj: body.cnpj,
+        cod_simples: body.cod_simples
+      }
+    })
+    return NextResponse.json(client)
+  } catch (error) {
+    return NextResponse.json(
+      { message: 'Erro ao atualizar cliente' },
       { status: 500 }
     )
   }

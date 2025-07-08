@@ -3,6 +3,7 @@
 import { signIn } from 'next-auth/react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Logo from '../components/Logo'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -29,28 +30,29 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-amber-100">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded shadow-md w-full max-w-sm"
+        className="bg-white p-8 rounded shadow-md w-full max-w-md relative flex flex-col items-center"
       >
+        <Logo className="mb-6" size={300} />
         <h2 className="text-2xl font-bold mb-6 text-amber-900 text-center">
           Login
         </h2>
-        <div className="mb-4">
+        <div className="mb-4 w-full">
           <label className="block text-amber-700 mb-2">E-mail</label>
           <input
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-amber-400"
+            className="w-full px-6 py-3 text-lg border rounded focus:outline-none focus:ring focus:border-amber-400"
             required
           />
         </div>
-        <div className="mb-4">
+        <div className="mb-4 w-full">
           <label className="block text-amber-700 mb-2">Senha</label>
           <input
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-amber-400"
+            className="w-full px-6 py-3 text-lg border rounded focus:outline-none focus:ring focus:border-amber-400"
             required
           />
         </div>
