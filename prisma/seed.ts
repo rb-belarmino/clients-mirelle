@@ -6,18 +6,7 @@ const prisma = new PrismaClient()
 const clientData: Prisma.ClientCreateInput[] = []
 
 const userData: Prisma.UserCreateInput[] = [
-  {
-    email: 'admin@admin.com',
-    password: 'admin123',
-    name: 'Administrador',
-    role: 'admin'
-  },
-  {
-    email: 'user@user.com',
-    password: 'user123',
-    name: 'Usuário',
-    role: 'user'
-  }
+  
 ]
 
 export async function main() {
@@ -27,7 +16,7 @@ export async function main() {
     const client = await prisma.client.create({
       data: {
         ...data,
-        senha_gov: data.senha_gov // salva em texto puro ou ajuste para outro método se desejar
+        senha_gov: data.senha_gov 
       }
     })
 
