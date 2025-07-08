@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../auth/[...nextauth]/route'
+import { hashPassword } from '@/utils/bcrypt'
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions)
@@ -26,12 +27,13 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  // Cria usuário (senha em texto puro, ajuste para hash se desejar)
+  const hashedPassword = await hashPassword(password)
+  // Cria usuário com senha hasheada
   const user = await prisma.user.create({
     data: {
       name,
       email,
-      password, // Em produção, use hash!
+      password: hashedPassword,
       role
     }
   })

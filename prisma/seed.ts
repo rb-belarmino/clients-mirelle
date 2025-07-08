@@ -1,5 +1,5 @@
 import { PrismaClient, Prisma } from '@prisma/client'
-import { encrypt } from '../utils/crypto'
+import { hashPassword } from '../utils/bcrypt'
 
 const prisma = new PrismaClient()
 
@@ -60,7 +60,7 @@ export async function main() {
     const client = await prisma.client.create({
       data: {
         ...data,
-        senha_gov: encrypt(data.senha_gov)
+        senha_gov: data.senha_gov // salva em texto puro ou ajuste para outro método se desejar
       }
     })
 
@@ -68,12 +68,13 @@ export async function main() {
   }
 
   for (const data of userData) {
+    const hashedPassword = await hashPassword(data.password)
     const user = await prisma.user.upsert({
       where: { email: data.email },
       update: {},
       create: {
         ...data,
-        password: encrypt(data.password)
+        password: hashedPassword
       }
     })
     console.log(`Created user: Email: ${user.email}`)

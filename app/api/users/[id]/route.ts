@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../../auth/[...nextauth]/route'
+import { hashPassword } from '@/utils/bcrypt'
 
 export async function PUT(
   req: NextRequest,
@@ -44,9 +45,10 @@ export async function POST(
   if (!password) {
     return NextResponse.json({ message: 'Senha obrigatória.' }, { status: 400 })
   }
+  const hashedPassword = await hashPassword(password)
   await prisma.user.update({
     where: { id },
-    data: { password }
+    data: { password: hashedPassword }
   })
   return NextResponse.json({ ok: true })
 }

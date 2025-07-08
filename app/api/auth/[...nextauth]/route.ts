@@ -2,6 +2,7 @@ import NextAuth from 'next-auth'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import prisma from '@/lib/prisma'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import { comparePassword } from '@/utils/bcrypt'
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
@@ -22,7 +23,10 @@ export const authOptions = {
         const user = await prisma.user.findUnique({
           where: { email: credentials.email }
         })
-        if (user && user.password === credentials.password) {
+        if (
+          user &&
+          (await comparePassword(credentials.password, user.password))
+        ) {
           // Remova a senha do objeto retornado
           const { password, ...userWithoutPass } = user
           return userWithoutPass
