@@ -107,9 +107,9 @@ export async function DELETE(req: NextRequest) {
 
   // Impede deletar usuário com role 'admin'
   const userToDelete = await prisma.user.findUnique({ where: { id } })
-  if (userToDelete?.role === 'admin') {
+  if (userToDelete?.email === 'admin@admin.com') {
     return NextResponse.json(
-      { message: 'Não é permitido deletar o usuário Admin.' },
+      { message: 'Não é permitido deletar o usuário admin@admin.com.' },
       { status: 400 }
     )
   }
