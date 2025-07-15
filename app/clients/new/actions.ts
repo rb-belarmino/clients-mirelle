@@ -6,12 +6,22 @@ import { encrypt, decrypt } from '@/utils/crypto'
 export async function createClient(formData: FormData) {
   const senha_gov = formData.get('senha_gov') as string
   const senhaCriptografada = encrypt(senha_gov)
+
+  const dataNascimentoRaw = formData.get('data_nascimento') as string
+  let dataNascimento: Date | undefined = undefined
+  if (dataNascimentoRaw) {
+    const parsedDate = new Date(dataNascimentoRaw)
+    if (!isNaN(parsedDate.getTime())) {
+      dataNascimento = parsedDate
+    }
+  }
+
   await prisma.client.create({
     data: {
       nome: formData.get('nome') as string,
       cpf: formData.get('cpf') as string,
       senha_gov: senhaCriptografada,
-      data_nascimento: new Date(formData.get('data_nascimento') as string),
+      data_nascimento: dataNascimento,
       cnpj: formData.get('cnpj') as string,
       cod_simples: formData.get('cod_simples') as string
     }
