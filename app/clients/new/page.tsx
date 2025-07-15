@@ -72,16 +72,10 @@ export default function NewClientPage() {
           />
         </div>
         <div>
-          <label className="block mb-1">
-            Data de Nascimento:
-            {touched.data_nascimento && !values.data_nascimento && (
-              <span className="text-red-500 ml-2">* obrigatório</span>
-            )}
-          </label>
+          <label className="block mb-1">Data de Nascimento:</label>
           <DatePickerInput
             name="data_nascimento"
             className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
-            required
             onBlur={handleBlur}
             onChange={handleChange}
             defaultValue={values.data_nascimento}

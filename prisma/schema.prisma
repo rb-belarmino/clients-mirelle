@@ -8,16 +8,16 @@ datasource db {
 }
 
 model Client {
-  id              String   @id @default(uuid())
+  id              String    @id @default(uuid())
   nome            String
-  cpf             String   @unique
+  cpf             String    @unique
   senha_gov       String
-  data_nascimento DateTime
+  data_nascimento DateTime?
   cod_simples     String?
   cnpj            String?
-  ativo           Boolean  @default(true)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  ativo           Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   @@map("clients")
 }

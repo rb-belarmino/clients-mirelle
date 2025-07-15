@@ -124,7 +124,6 @@ export default function EditClientPage() {
             name="data_nascimento"
             defaultValue={dataNascimento}
             onChange={e => setDataNascimento(e.target.value)}
-            required
           />
         </div>
         <div>
