@@ -72,6 +72,17 @@ export default function NewClientPage() {
           />
         </div>
         <div>
+          <label className="block mb-1">Senha ISS:</label>
+          <input
+            name="senha_iss"
+            type="password"
+            className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
+            required
+            onBlur={handleBlur}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
           <label className="block mb-1">Data de Nascimento:</label>
           <DatePickerInput
             name="data_nascimento"

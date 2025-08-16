@@ -92,6 +92,11 @@ export async function GET(
         client.senha_gov = decrypt(client.senha_gov)
       } catch {}
     }
+    if (client.senha_iss) {
+      try {
+        client.senha_iss = decrypt(client.senha_iss)
+      } catch {}
+    }
     return NextResponse.json(client)
   } catch (error) {
     return NextResponse.json(
@@ -123,6 +128,7 @@ export async function PUT(
         nome: body.nome,
         cpf: body.cpf,
         senha_gov: body.senha_gov ? encrypt(body.senha_gov) : undefined,
+        senha_iss: body.senha_iss ? encrypt(body.senha_iss) : undefined,
         data_nascimento: body.data_nascimento
           ? new Date(body.data_nascimento)
           : undefined,

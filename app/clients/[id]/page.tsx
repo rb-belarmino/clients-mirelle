@@ -77,6 +77,14 @@ export default function ClientDetailPage() {
               </tr>
               <tr>
                 <th className="text-right pr-4 text-amber-300 font-semibold">
+                  Senha ISS:
+                </th>
+                <td className="bg-amber-700 px-4 py-2 rounded">
+                  {client.senha_iss}
+                </td>
+              </tr>
+              <tr>
+                <th className="text-right pr-4 text-amber-300 font-semibold">
                   Data de Nascimento:
                 </th>
                 <td className="bg-amber-700 px-4 py-2 rounded">

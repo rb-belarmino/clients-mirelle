@@ -90,6 +90,13 @@ const ClientForm = () => {
           className="w-full p-2 border border-amber-300 rounded focus:border-amber-500 focus:ring-amber-500"
         />
         <input
+          type="password"
+          placeholder="Senha Iss"
+          value={senhaGov}
+          onChange={e => setSenhaGov(e.target.value)}
+          className="w-full p-2 border border-amber-300 rounded focus:border-amber-500 focus:ring-amber-500"
+        />
+        <input
           type="date"
           placeholder="Data de Nascimento"
           value={dataNascimento}

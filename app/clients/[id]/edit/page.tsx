@@ -15,6 +15,7 @@ export default function EditClientPage() {
   const [nome, setNome] = useState('')
   const [cpf, setCpf] = useState('')
   const [senhaGov, setSenhaGov] = useState('')
+  const [senhaIss, setSenhaIss] = useState('')
   const [dataNascimento, setDataNascimento] = useState('')
   const [cnpj, setCnpj] = useState('')
   const [codSimples, setCodSimples] = useState('')
@@ -29,6 +30,7 @@ export default function EditClientPage() {
         setNome(data.nome || '')
         setCpf(data.cpf || '')
         setSenhaGov(data.senha_gov || '')
+        setSenhaIss(data.senha_iss || '')
         setDataNascimento(
           data.data_nascimento ? data.data_nascimento.split('T')[0] : ''
         )
@@ -55,6 +57,7 @@ export default function EditClientPage() {
         nome,
         cpf: cpf.replace(/\D/g, ''),
         senha_gov: senhaGov,
+        senha_iss: senhaIss,
         data_nascimento: dataNascimento,
         cnpj,
         cod_simples: codSimples
@@ -115,6 +118,16 @@ export default function EditClientPage() {
             className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
             required
           />
+        </div>
+        <div>
+          <label className="block mb-1 text-amber-200">
+            <input
+              name="senha_iss"
+              value={senhaIss}
+              onChange={e => setSenhaIss(e.target.value)}
+              className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
+            />
+          </label>
         </div>
         <div>
           <label className="block mb-1 text-amber-200">

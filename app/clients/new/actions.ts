@@ -4,8 +4,13 @@ import { redirect } from 'next/navigation'
 import { encrypt, decrypt } from '@/utils/crypto'
 
 export async function createClient(formData: FormData) {
-  const senha_gov = formData.get('senha_gov') as string
-  const senhaCriptografada = encrypt(senha_gov)
+  const senhaGov = formData.get('senha_gov') as string
+  const senhaIss = formData.get('senha_iss') as string
+  if (!senhaGov) {
+    throw new Error('Senha Gov é obrigatória')
+  }
+  const senhaGovCriptografada = encrypt(senhaGov)
+  const senhaIssCriptografada = encrypt(senhaIss)
 
   const dataNascimentoRaw = formData.get('data_nascimento') as string
   let dataNascimento: Date | undefined = undefined
@@ -20,7 +25,8 @@ export async function createClient(formData: FormData) {
     data: {
       nome: formData.get('nome') as string,
       cpf: formData.get('cpf') as string,
-      senha_gov: senhaCriptografada,
+      senha_gov: senhaGovCriptografada,
+      senha_iss: senhaIssCriptografada,
       data_nascimento: dataNascimento,
       cnpj: formData.get('cnpj') as string,
       cod_simples: formData.get('cod_simples') as string
@@ -36,6 +42,11 @@ export async function getClient(id: string) {
   if (client && client.senha_gov) {
     try {
       client.senha_gov = decrypt(client.senha_gov)
+    } catch {}
+  }
+  if (client && client.senha_iss) {
+    try {
+      client.senha_iss = decrypt(client.senha_iss)
     } catch {}
   }
   return client
