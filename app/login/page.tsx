@@ -29,18 +29,31 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-amber-100">
-      <Card className="w-full max-w-md shadow-xl border-amber-200">
-        <CardHeader>
-          <Logo className="mb-2 mx-auto" size={200} />
-          <CardTitle className="text-center text-amber-900 text-3xl font-bold">
-            Login
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <LoginForm onSubmit={handleLogin} error={error} loading={loading} />
-        </CardContent>
-      </Card>
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Imagem de fundo */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/img/contabilidade.webp"
+          alt="Contabilidade"
+          className="w-full h-full object-cover object-center opacity-60"
+        />
+        {/* Overlay amarelado */}
+        <div className="absolute inset-0 bg-amber-100/80" />
+      </div>
+      {/* Conteúdo central */}
+      <div className="relative z-10 flex items-center justify-center w-full min-h-screen">
+        <Card className="w-full max-w-md shadow-xl border-amber-200 bg-white/90 backdrop-blur-md">
+          <CardHeader>
+            <Logo className="mb-2 mx-auto" size={200} />
+            <CardTitle className="text-center text-amber-900 text-3xl font-bold">
+              Login
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <LoginForm onSubmit={handleLogin} error={error} loading={loading} />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }
