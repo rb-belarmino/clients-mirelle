@@ -7,18 +7,18 @@ export async function GET(request: Request) {
   const page = parseInt(searchParams.get('page') || '1', 10)
   const pageSize = parseInt(searchParams.get('pageSize') || '10', 10)
 
-  try {
-    const where = search
-      ? {
-          ativo: true,
-          OR: [
-            { nome: { contains: search, mode: 'insensitive' } },
-            { cpf: { contains: search, mode: 'insensitive' } },
-            { cnpj: { contains: search, mode: 'insensitive' } }
-          ]
-        }
-      : { ativo: true }
+  const where = search
+    ? {
+        ativo: true,
+        OR: [
+          { nome: { contains: search, mode: 'insensitive' as const } },
+          { cpf: { contains: search, mode: 'insensitive' as const } },
+          { cnpj: { contains: search, mode: 'insensitive' as const } }
+        ]
+      }
+    : { ativo: true }
 
+  try {
     const [clients, total] = await Promise.all([
       prisma.client.findMany({
         where,
@@ -28,7 +28,6 @@ export async function GET(request: Request) {
       }),
       prisma.client.count({ where })
     ])
-
     return NextResponse.json({ clients, total }, { status: 200 })
   } catch (error) {
     console.error('Error fetching clients:', error)
