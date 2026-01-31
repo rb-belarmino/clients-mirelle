@@ -58,7 +58,7 @@ export default function ClientList({ clients }: { clients: Client[] }) {
                 <p className="text-sm text-amber-700">CPF: {client.cpf}</p>
                 <span className="text-xs text-amber-600 block mt-1">
                   Registrado em:{' '}
-                  {new Date(client.createdAt).toLocaleDateString()}
+                  {new Date(client.createdAt).toLocaleDateString('pt-BR')}
                 </span>
               </div>
               <div className="flex gap-2 mt-4 sm:mt-0">
