@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import DatePickerInput from '@/app/components/DatePickerInput'
+import { Input } from '@/app/components/ui/input'
+import { Button } from '@/app/components/ui/button'
 import toast from 'react-hot-toast'
 
 export default function EditClientPage() {
@@ -73,64 +75,71 @@ export default function EditClientPage() {
   }
 
   if (loading)
-    return <div className="text-center text-amber-200">Carregando...</div>
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-amber-100">
+        <div className="text-center text-amber-400">Carregando...</div>
+      </main>
+    )
   if (!client)
-    return <div className="text-red-500">Cliente não encontrado.</div>
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-amber-100">
+        <div className="text-red-500">Cliente não encontrado.</div>
+      </main>
+    )
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-amber-900 text-white p-2 sm:p-0">
+    <main className="min-h-screen flex items-center justify-center bg-amber-100 p-2 sm:p-0">
       <form
         onSubmit={handleSubmit}
-        className="bg-amber-800 p-4 sm:p-8 rounded shadow max-w-md w-full space-y-4 mx-2"
+        className="bg-white p-4 sm:p-8 rounded-xl shadow-xl max-w-md w-full space-y-4 mx-2 border border-amber-200"
       >
-        <h2 className="text-2xl font-bold mb-4 text-amber-100 text-center">
+        <h2 className="text-2xl font-bold mb-4 text-center text-amber-900">
           Editar Cliente
         </h2>
         <div>
-          <label className="block mb-1 text-amber-200">Nome:</label>
-          <input
+          <label className="block mb-1 text-amber-700">Nome:</label>
+          <Input
             name="nome"
             value={nome}
             onChange={e => setNome(e.target.value)}
-            className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
+            className="bg-amber-50 text-amber-900"
             required
           />
         </div>
         <div>
-          <label className="block mb-1 text-amber-200">CPF:</label>
-          <input
+          <label className="block mb-1 text-amber-700">CPF:</label>
+          <Input
             name="cpf"
             value={cpf}
             onChange={handleCpfChange}
             maxLength={14}
-            className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
+            className="bg-amber-50 text-amber-900"
             required
             inputMode="numeric"
             autoComplete="off"
           />
         </div>
         <div>
-          <label className="block mb-1 text-amber-200">Senha Gov:</label>
-          <input
+          <label className="block mb-1 text-amber-700">Senha Gov:</label>
+          <Input
             name="senha_gov"
             value={senhaGov}
             onChange={e => setSenhaGov(e.target.value)}
-            className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
+            className="bg-amber-50 text-amber-900"
             required
           />
         </div>
         <div>
-          <label className="block mb-1 text-amber-200">
-            <input
-              name="senha_iss"
-              value={senhaIss}
-              onChange={e => setSenhaIss(e.target.value)}
-              className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
-            />
-          </label>
+          <label className="block mb-1 text-amber-700">Senha ISS:</label>
+          <Input
+            name="senha_iss"
+            value={senhaIss}
+            onChange={e => setSenhaIss(e.target.value)}
+            className="bg-amber-50 text-amber-900"
+          />
         </div>
         <div>
-          <label className="block mb-1 text-amber-200">
+          <label className="block mb-1 text-amber-700">
             Data de Nascimento:
           </label>
           <DatePickerInput
@@ -140,42 +149,43 @@ export default function EditClientPage() {
           />
         </div>
         <div>
-          <label className="block mb-1 text-amber-200">CNPJ:</label>
-          <input
+          <label className="block mb-1 text-amber-700">CNPJ:</label>
+          <Input
             name="cnpj"
             value={cnpj}
             onChange={e => setCnpj(e.target.value)}
-            className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
+            className="bg-amber-50 text-amber-900"
             required
           />
         </div>
         <div>
-          <label className="block mb-1 text-amber-200">
+          <label className="block mb-1 text-amber-700">
             Código Simples Nacional:
           </label>
-          <input
+          <Input
             name="cod_simples"
             value={codSimples}
             onChange={e => setCodSimples(e.target.value)}
-            className="w-full px-3 py-2 rounded bg-amber-700 text-white focus:border-amber-400 focus:ring-amber-400"
+            className="bg-amber-50 text-amber-900"
             required
           />
         </div>
         <div className="flex flex-col sm:flex-row gap-2 mt-4">
-          <button
+          <Button
             type="submit"
-            className="bg-amber-600 hover:bg-amber-700 px-4 py-2 rounded text-white w-full sm:w-auto"
+            className="bg-amber-600 hover:bg-amber-700 text-white w-full sm:w-auto transition-transform duration-200 hover:scale-105"
             disabled={loading}
           >
             {loading ? 'Salvando...' : 'Salvar'}
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
+            variant="secondary"
+            className="bg-amber-200 hover:bg-amber-300 text-amber-900 font-semibold w-full sm:w-auto transition-transform duration-200 hover:scale-105"
             onClick={() => router.push(`/clients/${id}`)}
-            className="bg-amber-500 hover:bg-amber-600 px-4 py-2 rounded text-amber-900 font-semibold w-full sm:w-auto text-center"
           >
             Cancelar
-          </button>
+          </Button>
         </div>
       </form>
     </main>

@@ -2,11 +2,14 @@
 
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import { Input } from '@/app/components/ui/input'
+import { Button } from '@/app/components/ui/button'
 
 const ClientForm = () => {
   const [nome, setNome] = useState('')
   const [cpf, setCpf] = useState('')
   const [senhaGov, setSenhaGov] = useState('')
+  const [senhaIss, setSenhaIss] = useState('')
   const [dataNascimento, setDataNascimento] = useState('')
   const [cnpj, setCnpj] = useState('')
   const [codSimples, setCodSimples] = useState('')
@@ -30,6 +33,7 @@ const ClientForm = () => {
           nome,
           cpf,
           senha_gov: senhaGov,
+          senha_iss: senhaIss,
           data_nascimento: dataNascimento
             ? new Date(dataNascimento).toISOString()
             : undefined,
@@ -44,11 +48,11 @@ const ClientForm = () => {
         setNome('')
         setCpf('')
         setSenhaGov('')
+        setSenhaIss('')
         setDataNascimento('')
         setCnpj('')
         setCodSimples('')
         router.refresh()
-        console.log('Client created:', data)
         router.push('/')
       } else {
         setError(data.message || 'Failed to create client')
@@ -61,71 +65,71 @@ const ClientForm = () => {
   }
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-amber-50 shadow-md rounded-lg mt-8">
-      <h2 className="text-2xl font-bold mb-4 text-amber-900">Create Client</h2>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+    <div className="max-w-md mx-auto p-4 bg-white shadow-xl rounded-xl mt-8 border border-amber-200">
+      <h2 className="text-2xl font-bold mb-4 text-center text-amber-900">
+        Cadastrar Novo Cliente
+      </h2>
+      {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input
+        <Input
           type="text"
           placeholder="Nome"
           value={nome}
           onChange={e => setNome(e.target.value)}
           required
-          className="w-full p-2 border border-amber-300 rounded focus:border-amber-500 focus:ring-amber-500"
+          className="bg-amber-50 text-amber-900"
         />
-        <input
+        <Input
           type="text"
           placeholder="CPF"
           value={cpf}
           onChange={e => setCpf(e.target.value)}
           required
-          className="w-full p-2 border border-amber-300 rounded focus:border-amber-500 focus:ring-amber-500"
+          className="bg-amber-50 text-amber-900"
         />
-        <input
+        <Input
           type="password"
           placeholder="Senha Gov"
           value={senhaGov}
           onChange={e => setSenhaGov(e.target.value)}
           required
-          className="w-full p-2 border border-amber-300 rounded focus:border-amber-500 focus:ring-amber-500"
+          className="bg-amber-50 text-amber-900"
         />
-        <input
+        <Input
           type="password"
-          placeholder="Senha Iss"
-          value={senhaGov}
-          onChange={e => setSenhaGov(e.target.value)}
-          className="w-full p-2 border border-amber-300 rounded focus:border-amber-500 focus:ring-amber-500"
+          placeholder="Senha ISS"
+          value={senhaIss}
+          onChange={e => setSenhaIss(e.target.value)}
+          className="bg-amber-50 text-amber-900"
         />
-        <input
+        <Input
           type="date"
           placeholder="Data de Nascimento"
           value={dataNascimento}
           onChange={e => setDataNascimento(e.target.value)}
-          className="w-full p-2 border border-amber-300 rounded focus:border-amber-500 focus:ring-amber-500"
+          className="bg-amber-50 text-amber-900"
         />
-        <input
+        <Input
           type="text"
           placeholder="CNPJ"
           value={cnpj}
           onChange={e => setCnpj(e.target.value)}
-          className="w-full p-2 border border-amber-300 rounded focus:border-amber-500 focus:ring-amber-500"
+          className="bg-amber-50 text-amber-900"
         />
-        <input
+        <Input
           type="number"
           placeholder="Código Simples Nacional"
           value={codSimples}
           onChange={e => setCodSimples(e.target.value)}
-          className="w-full p-2 border border-amber-300 rounded focus:border-amber-500 focus:ring-amber-500"
+          className="bg-amber-50 text-amber-900"
         />
-        <button
+        <Button
           type="submit"
           disabled={isLoading}
-          className={`w-full p-2 text-white ${
-            isLoading ? 'bg-amber-300' : 'bg-amber-600 hover:bg-amber-700'
-          } rounded`}
+          className="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold transition-transform duration-200 hover:scale-105"
         >
-          {isLoading ? 'Creating...' : 'Create Client'}
-        </button>
+          {isLoading ? 'Salvando...' : 'Salvar'}
+        </Button>
       </form>
     </div>
   )

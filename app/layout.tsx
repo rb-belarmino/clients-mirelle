@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import { NextAuthProvider } from './providers'
@@ -16,13 +15,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body>
+      <body className="bg-amber-50 min-h-screen font-sans">
         <Toaster position="top-right" />
         <NextAuthProvider>
-          <div className="w-full flex justify-end p-4">
+          <header className="w-full fixed top-0 left-0 z-50 bg-white/90 shadow-md flex justify-end items-center px-6 py-3">
             <LogoutButton />
-          </div>
-          {children}
+          </header>
+          <div className="pt-20">{children}</div>
         </NextAuthProvider>
       </body>
     </html>
