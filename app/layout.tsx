@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { Toaster } from 'react-hot-toast'
+import { Toaster } from './components/ui/sonner'
 import { NextAuthProvider } from './providers'
 import LogoutButton from './components/LogoutButton'
 

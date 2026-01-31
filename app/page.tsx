@@ -2,6 +2,7 @@ import Search from './components/Search'
 import ProtectedRoute from './ProtectedRoute'
 import AdminCreateButton from './components/AdminCreateButton'
 import UsersButton from './components/UsersButton'
+import LayoutChangeToast from './components/LayoutChangeToast'
 import {
   Card,
   CardContent,
@@ -12,6 +13,7 @@ import {
 export default async function HomePage() {
   return (
     <ProtectedRoute>
+      <LayoutChangeToast />
       <main className="min-h-screen bg-amber-100 flex flex-col items-center justify-center p-4 sm:p-8">
         <Card className="w-full max-w-4xl shadow-2xl border-amber-200 animate-in fade-in duration-700">
           <CardHeader>
