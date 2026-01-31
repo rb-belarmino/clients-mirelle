@@ -33,7 +33,7 @@ export default function Search() {
       <div className="relative mb-4">
         <Input
           type="text"
-          placeholder="Buscar por nome..."
+          placeholder="Buscar por nome, cpf ou cnpj..."
           value={search}
           onChange={e => setSearch(e.target.value)}
           className="bg-amber-50 text-amber-900 pr-10"
@@ -51,7 +51,7 @@ export default function Search() {
       ) : clients.length === 0 ? (
         <p className="text-amber-400 text-center">Nenhum cliente encontrado.</p>
       ) : (
-        <ClientList clients={clients} />
+        <ClientList search={search} />
       )}
     </div>
   )

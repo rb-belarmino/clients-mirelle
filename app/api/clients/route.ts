@@ -3,16 +3,33 @@ import prisma from '@/lib/prisma'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
-  const nome = searchParams.get('nome') || undefined
+  const search = searchParams.get('nome') || undefined
+  const page = parseInt(searchParams.get('page') || '1', 10)
+  const pageSize = parseInt(searchParams.get('pageSize') || '10', 10)
+
   try {
-    const clients = await prisma.client.findMany({
-      where: {
-        ativo: true,
-        ...(nome ? { nome: { contains: nome, mode: 'insensitive' } } : {})
-      },
-      orderBy: { createdAt: 'desc' }
-    })
-    return NextResponse.json(clients, { status: 200 })
+    const where = search
+      ? {
+          ativo: true,
+          OR: [
+            { nome: { contains: search, mode: 'insensitive' } },
+            { cpf: { contains: search, mode: 'insensitive' } },
+            { cnpj: { contains: search, mode: 'insensitive' } }
+          ]
+        }
+      : { ativo: true }
+
+    const [clients, total] = await Promise.all([
+      prisma.client.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        skip: (page - 1) * pageSize,
+        take: pageSize
+      }),
+      prisma.client.count({ where })
+    ])
+
+    return NextResponse.json({ clients, total }, { status: 200 })
   } catch (error) {
     console.error('Error fetching clients:', error)
     return NextResponse.json(
