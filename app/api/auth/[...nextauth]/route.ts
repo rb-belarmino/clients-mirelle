@@ -20,7 +20,6 @@ const authOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
-        // Busca usuário no banco
         const user = await prisma.user.findUnique({
           where: { email: credentials.email }
         })
@@ -28,7 +27,6 @@ const authOptions = {
           user &&
           (await comparePassword(credentials.password, user.password))
         ) {
-          // Remova a senha do objeto retornado
           const { password, ...userWithoutPass } = user
           return userWithoutPass
         }
