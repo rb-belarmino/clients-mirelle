@@ -7,14 +7,8 @@ export default function Footer() {
         <Code2 size={14} className="text-amber-600" />
         <span>
           Desenvolvido por{' '}
-          <a
-            href="https://www.linkedin.com/in/rodrigo-belarmino/"
-            title="Linkedin"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-semibold text-amber-700 hover:text-amber-900 transition-colors"
-          >
-            Rodrigo Belarmino
+          <a className="font-semibold text-amber-700 hover:text-amber-900 transition-colors">
+            Bellar
           </a>{' '}
           &copy; {new Date().getFullYear()}
         </span>
